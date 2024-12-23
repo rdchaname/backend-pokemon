@@ -58,5 +58,49 @@ namespace Cibertec.PokemonApi.Infraestructure.Repositories
             _context.Pokemones.Remove(pokemon);
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public async Task<int> TotalPokemones()
+        {
+            var totalPokemones = await _context.Pokemones.CountAsync();
+            return totalPokemones;
+        }
+
+        public async Task<int> CantidadPorTipo(string tipo)
+        {
+            var totalPokemones = await _context.Pokemones.Where(p => p.Tipo == tipo).CountAsync();
+            return totalPokemones;
+        }
+
+        public async Task<List<Dictionary<string, object>>> ListarCantidadPorTipo()
+        {
+            var cantidadPorTipo = await _context.Pokemones
+                   .GroupBy(p => p.Tipo) // Agrupa por el nombre
+                   .Select(g => new Dictionary<string, object>
+                   {
+                        { "Nombre", g.Key },       // "Nombre" como clave y el valor del grupo (g.Key)
+                        { "Cantidad", g.Count() }  // "Cantidad" como clave y la cantidad de productos
+                   })
+                   .ToListAsync();
+            return cantidadPorTipo;
+        }
+
+        public async Task<decimal> PromedioPoderCombate()
+        {
+            var totalPokemones = await _context.Pokemones.CountAsync();
+            if (totalPokemones == 0)
+            {
+                return (decimal)0.00;
+            }
+            var promedio = await _context.Pokemones
+                        .Where(p => p.PoderCombate != null)
+                        .Select(p => p.PoderCombate)
+                        .AverageAsync();
+            return (decimal)promedio;
+        }
+
+        public async Task<IEnumerable<string>> ObtenerTipos()
+        {
+            return await _context.Pokemones.Select(p => p.Tipo).Distinct().ToListAsync();
+        }
     }
 }

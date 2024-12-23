@@ -6,6 +6,7 @@ using Cibertec.PokemonApi.Application.Casos_de_Uso.AdministrarPokemones.Registra
 using Cibertec.PokemonApi.Application.Casos_de_Uso.AdministrarPokemones.SincronizarPokemon;
 using Cibertec.PokemonApi.Application.Common;
 using Cibertec.PokemonApi.Application.Use_Cases.Use_Cases_Alumno.Querys;
+using Cibertec.PokemonApi.Application.Use_Cases.Use_Cases_Pokemon.Querys;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -94,6 +95,38 @@ namespace Cibertec.PokemonApi.API.Controllers
             }
             var response = await _mediator.Send(request);
             return new ObjectResult(response);
+        }
+
+        //retornar cantidad total de los pokemones
+        [HttpGet("obtenerCantidadTotal")]
+        public async Task<ActionResult> GetCantidadTotal()
+        {
+            var response = await _mediator.Send(new GetCantidadTotalQuery());
+            return new ObjectResult(new SuccessResult<int>(response));
+        }
+
+        //retornar cantidad por tipo
+        [HttpGet("obtenerCantidadPorTipo")]
+        public async Task<ActionResult> GetCantidadPorTipo()
+        {
+            var response = await _mediator.Send(new GetCantidadPorTipoQuery());
+            return new ObjectResult(new SuccessResult<List<Dictionary<string, object>>>(response));
+        }
+
+        //retornar promedio de poder de combate
+        [HttpGet("obtenerPromedioPoderCombate")]
+        public async Task<ActionResult> GetPromedioPoderCombate()
+        {
+            var response = await _mediator.Send(new GetPromedioPoderCombateQuery());
+            return new ObjectResult(new SuccessResult<decimal>(response));
+        }
+
+        //retornar todos los pokemones
+        [HttpGet("obtenerTipos")]
+        public async Task<ActionResult> GetTipos()
+        {
+            var tipos = await _mediator.Send(new GetTiposQuery());
+            return new ObjectResult(new SuccessResult<IEnumerable<string>>(tipos));
         }
     }
 }

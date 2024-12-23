@@ -9,5 +9,10 @@
         Task<bool> Adicionar(Pokemon pokemon);
         Task<bool> Modificar(Pokemon pokemon);
         Task<bool> Eliminar(Pokemon pokemon);
+        Task<int> TotalPokemones();
+        Task<int> CantidadPorTipo(string tipo);
+        Task<List<Dictionary<string, object>>> ListarCantidadPorTipo();
+        Task<decimal> PromedioPoderCombate();
+        Task<IEnumerable<string>> ObtenerTipos();
     }
 }
