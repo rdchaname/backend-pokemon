@@ -1,0 +1,63 @@
+# Compiled object files and libraries
+*.obj
+*.dll
+*.exe
+*.pdb
+*.log
+*.cache
+*.zip
+*.tar.gz
+
+# Visual Studio temporary files, build results, and
+# user-specific files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.userprefs
+*.vcxproj.user
+*.builds
+*.pidb
+*.opendb
+*.temp
+_ReSharper*/
+
+# Uncomment if you have tasks that create the project's package
+*.nupkg
+*.snupkg
+
+# ASP.NET Core specific files
+bin/
+obj/
+wwwroot/appsettings.json
+
+# Logs
+logs/
+*.log
+*.nlog
+*.serilog
+
+# Entity Framework Core migration files
+Migrations/
+
+# NuGet Packages
+*.nupkg
+!packages/build/
+!packages/repositories.config
+
+# Dependency directories
+node_modules/
+bower_components/
+
+# Build artifacts
+dist/
+out/
+
+# IDE configuration
+.idea/
+*.csproj.user
+
+# Others
+**/sqlite.db
+.env
