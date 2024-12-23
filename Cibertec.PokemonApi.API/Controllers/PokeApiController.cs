@@ -21,13 +21,5 @@ namespace Cibertec.PokemonApi.API.Controllers
             var pokemones = await _mediator.Send(request);
             return new ObjectResult(new SuccessResult<List<PokemonResult>>(pokemones));
         }
-
-        //consultar pokemon por nombre
-        [HttpGet("{Name}")]
-        public async Task<ActionResult> GetPokemonByName([FromRoute] GetPokemonByNamePokeApiQuery request)
-        {
-            var pokemon = await _mediator.Send(request);
-            return new ObjectResult(new SuccessResult<PokemonDetail>(pokemon));
-        }
     }
 }

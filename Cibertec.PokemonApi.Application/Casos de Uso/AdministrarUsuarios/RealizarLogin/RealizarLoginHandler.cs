@@ -26,13 +26,11 @@ namespace Cibertec.PokemonApi.Application.Casos_de_Uso.AdministrarUsuarios.Reali
                     var loginResponse = _mapper.Map<RealizarLoginResponse>(usuario);
                     loginResponse.Token = service.CreateToken(usuario);
                     result = new SuccessResult<RealizarLoginResponse>(loginResponse);
-
                 }
                 else
                 {
-                    throw new ValidationException("Producto no existe");
+                    throw new ValidationException("Usuario o contraseña incorrecta");
                 }
-
 
             }
             catch (ValidationException ex)

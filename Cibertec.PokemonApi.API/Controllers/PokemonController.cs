@@ -84,7 +84,7 @@ namespace Cibertec.PokemonApi.API.Controllers
             return new ObjectResult(response);
         }
 
-        //// eliminar un pokemon por id
+        // eliminar un pokemon por id
         [HttpDelete("{Id}")]
         public async Task<ActionResult> DeletePokemon([FromRoute] EliminarPokemonRequest request)
         {

@@ -3,6 +3,7 @@ using Cibertec.PokemonApi.Application.DI;
 using Cibertec.PokemonApi.Domain.Repositories;
 using Cibertec.PokemonApi.Domain.Servicios;
 using Cibertec.PokemonApi.Infraestructure.Context;
+using Cibertec.PokemonApi.Infraestructure.DI;
 using Cibertec.PokemonApi.Infraestructure.Repositories;
 using Cibertec.PokemonApi.Infraestructure.Servicios;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddApplicationServices();
 builder.Services.AddAuthenticationByJWT();
+builder.Services.AddLogger(builder.Configuration);
 
 builder.Services.AddSqlite<PokemonApiDbContext>(builder.Configuration.GetConnectionString("SQLiteConnection"));
 
