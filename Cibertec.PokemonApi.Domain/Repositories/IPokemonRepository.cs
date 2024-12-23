@@ -3,7 +3,7 @@
     public interface IPokemonRepository
     {
         Task<IEnumerable<Pokemon>> ObtenerTodos();
-        Task<(IEnumerable<Pokemon>, int)> ObtenerTodosPaginacion(int numeroPagina, int cantidadPorPagina);
+        Task<(IEnumerable<Pokemon>, int)> ObtenerTodosPaginacion(int numeroPagina, int cantidadPorPagina, string busqueda, string tipo);
         Task<Pokemon> ObtenerPorId(int id);
         Task<Pokemon> ObtenerPorNombre(string nombre);
         Task<bool> Adicionar(Pokemon pokemon);

@@ -20,11 +20,25 @@ namespace Cibertec.PokemonApi.Infraestructure.Repositories
             return await _context.Pokemones.ToListAsync();
         }
 
-        public async Task<(IEnumerable<Pokemon>, int)> ObtenerTodosPaginacion(int numeroPagina = 1, int cantidadPorPagina = 20)
+        public async Task<(IEnumerable<Pokemon>, int)> ObtenerTodosPaginacion(int numeroPagina = 1, int cantidadPorPagina = 20, string busqueda = "", string tipo = "")
         {
+            var query = _context.Pokemones.AsQueryable();
+
+            if (!string.IsNullOrEmpty(busqueda))
+            {
+                // Aplica el filtro LIKE en la columna tipo
+                query = query.Where(p => EF.Functions.Like(p.Nombre, $"%{busqueda}%"));
+            }
+
+            if (!string.IsNullOrEmpty(tipo))
+            {
+                // Aplica el filtro LIKE en la columna tipo
+                query = query.Where(p => EF.Functions.Like(p.Tipo, $"%{tipo}%"));
+            }
+
             var totalPokemones = await _context.Pokemones.CountAsync();
 
-            var pokemones = await _context.Pokemones
+            var pokemones = await query
                 .Skip((numeroPagina - 1) * cantidadPorPagina)
                 .Take(cantidadPorPagina)
                 .ToListAsync();

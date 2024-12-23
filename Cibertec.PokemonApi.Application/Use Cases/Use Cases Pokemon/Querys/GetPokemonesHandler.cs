@@ -9,7 +9,7 @@ namespace Cibertec.PokemonApi.Application.Use_Cases.Use_Cases_Alumno.Querys
 
         public async Task<(IEnumerable<Pokemon>, int)> Handle(GetPokemonesQuery request, CancellationToken cancellationToken)
         {
-            return await pokemonRepository.ObtenerTodosPaginacion(request.NumeroPagina, request.CantidadPorPagina);
+            return await pokemonRepository.ObtenerTodosPaginacion(request.NumeroPagina, request.CantidadPorPagina, request.Busqueda, request.Tipo);
         }
     }
 }
