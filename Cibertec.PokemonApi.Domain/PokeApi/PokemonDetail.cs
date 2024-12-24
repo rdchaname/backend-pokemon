@@ -6,5 +6,6 @@
         public string Name { get; set; }
         public string Type { get; set; }
         public string Imagen { get; set; }
+        public decimal PoderCombate { get; set; }
     }
 }

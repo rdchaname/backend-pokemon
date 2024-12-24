@@ -26,13 +26,11 @@ namespace Cibertec.PokemonApi.Infraestructure.Repositories
 
             if (!string.IsNullOrEmpty(busqueda))
             {
-                // Aplica el filtro LIKE en la columna tipo
                 query = query.Where(p => EF.Functions.Like(p.Nombre, $"%{busqueda}%"));
             }
 
             if (!string.IsNullOrEmpty(tipo))
             {
-                // Aplica el filtro LIKE en la columna tipo
                 query = query.Where(p => EF.Functions.Like(p.Tipo, $"%{tipo}%"));
             }
 
@@ -88,11 +86,11 @@ namespace Cibertec.PokemonApi.Infraestructure.Repositories
         public async Task<List<Dictionary<string, object>>> ListarCantidadPorTipo()
         {
             var cantidadPorTipo = await _context.Pokemones
-                   .GroupBy(p => p.Tipo) // Agrupa por el nombre
+                   .GroupBy(p => p.Tipo)
                    .Select(g => new Dictionary<string, object>
                    {
-                        { "Nombre", g.Key },       // "Nombre" como clave y el valor del grupo (g.Key)
-                        { "Cantidad", g.Count() }  // "Cantidad" como clave y la cantidad de productos
+                        { "Nombre", g.Key },
+                        { "Cantidad", g.Count() }
                    })
                    .ToListAsync();
             return cantidadPorTipo;

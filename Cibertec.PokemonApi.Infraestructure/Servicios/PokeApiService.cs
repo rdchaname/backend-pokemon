@@ -53,13 +53,17 @@ namespace Cibertec.PokemonApi.Infraestructure.Servicios
             string? tipo = typesArray.FirstOrDefault().GetProperty("type").GetProperty("name").GetString();
             var imagen = tempObject.GetProperty("sprites").GetProperty("front_default").GetString();
 
+            var statsArray = tempObject.GetProperty("stats").EnumerateArray().Select(stat => stat.GetProperty("base_stat").GetInt32());
+
+            var poderCombate = statsArray.Any() ? statsArray.Average() : 0;
 
             var pokemonDetail = new PokemonDetail
             {
                 Id = id,
                 Name = nombre,
                 Type = tipo,
-                Imagen = imagen
+                Imagen = imagen,
+                PoderCombate = (decimal)poderCombate
             };
 
             return pokemonDetail;
@@ -69,7 +73,6 @@ namespace Cibertec.PokemonApi.Infraestructure.Servicios
         {
             try
             {
-                // Hacer la solicitud HTTP para descargar la imagen
                 var response = await _httpClient.GetAsync(url);
                 if (!response.IsSuccessStatusCode)
                 {
@@ -79,26 +82,22 @@ namespace Cibertec.PokemonApi.Infraestructure.Servicios
                 var uploadsFolder = Path.Combine("wwwroot", "images", "pokemons");
                 if (!Directory.Exists(uploadsFolder))
                 {
-                    Directory.CreateDirectory(uploadsFolder); // Crear la carpeta si no existe
+                    Directory.CreateDirectory(uploadsFolder);
                 }
 
-                // Generar un nombre único para la imagen
-                var extension = Path.GetExtension(url); // Obtener la extensión del archivo
+                var extension = Path.GetExtension(url);
                 var fileName = $"{Guid.NewGuid()}_{name.ToLower()}{extension}";
                 var filePath = Path.Combine(uploadsFolder, fileName);
 
-                // Guardar el archivo en el sistema local
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await response.Content.CopyToAsync(fileStream);
                 }
 
-                // Retornar la ruta relativa de la imagen
                 return $"/images/pokemons/{fileName}";
             }
             catch (Exception ex)
             {
-                // Manejo de errores (puedes agregar logging aquí)
                 throw new Exception("Error al guardar la imagen.", ex);
             }
         }

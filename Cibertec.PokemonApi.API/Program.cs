@@ -7,6 +7,7 @@ using Cibertec.PokemonApi.Infraestructure.DI;
 using Cibertec.PokemonApi.Infraestructure.Repositories;
 using Cibertec.PokemonApi.Infraestructure.Servicios;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy
-                .WithOrigins("http://localhost:5173")
+                .WithOrigins("https://frontendpokemon-e6dtaddjbbgsbte3.eastus2-01.azurewebsites.net")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
@@ -37,6 +38,7 @@ builder.Services.AddAuthenticationByJWT();
 builder.Services.AddLogger(builder.Configuration);
 
 builder.Services.AddSqlite<PokemonApiDbContext>(builder.Configuration.GetConnectionString("SQLiteConnection"));
+
 
 builder.Services.AddHttpClient<PokeApiService>();
 
@@ -69,4 +71,10 @@ app.UseCors("AplicacionReact");
 app.UseStaticFiles();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<PokemonApiDbContext>();
+    dbContext.Database.Migrate();
+}
 app.Run();

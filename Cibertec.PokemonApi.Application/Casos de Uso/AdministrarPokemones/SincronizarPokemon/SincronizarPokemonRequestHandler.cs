@@ -39,7 +39,7 @@ namespace Cibertec.PokemonApi.Application.Casos_de_Uso.AdministrarPokemones.Sinc
                 entidadPokemon = new Pokemon();
                 entidadPokemon.Nombre = pokemonDetail.Name;
                 entidadPokemon.Tipo = pokemonDetail.Type;
-                entidadPokemon.PoderCombate = 100;
+                entidadPokemon.PoderCombate = (int)pokemonDetail.PoderCombate;
                 entidadPokemon.Imagen = await _pokemonApiRepository.DescargarYGuardarImagen(pokemonDetail.Imagen, pokemonDetail.Name);
 
                 var isOk = await _pokemonRepository.Adicionar(entidadPokemon);

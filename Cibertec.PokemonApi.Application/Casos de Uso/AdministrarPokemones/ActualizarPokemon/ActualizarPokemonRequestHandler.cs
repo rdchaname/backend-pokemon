@@ -36,7 +36,7 @@ namespace Cibertec.PokemonApi.Application.Casos_de_Uso.AdministrarPokemones.Actu
                 var uploadsFolder = Path.Combine("wwwroot", "images", "pokemons");
                 if (!Directory.Exists(uploadsFolder))
                 {
-                    Directory.CreateDirectory(uploadsFolder); // Crear la carpeta si no existe
+                    Directory.CreateDirectory(uploadsFolder);
                 }
 
                 // Generar un nombre único para la imagen
@@ -53,9 +53,6 @@ namespace Cibertec.PokemonApi.Application.Casos_de_Uso.AdministrarPokemones.Actu
                     }
                 }
 
-                Console.WriteLine("--------------");
-                Console.WriteLine(request.Nombre);
-                Console.WriteLine("--------------");
                 if (pokemonEncontrado is null)
                 {
                     pokemonEncontrado = await _pokemonRepository.ObtenerPorId(request.Id);
